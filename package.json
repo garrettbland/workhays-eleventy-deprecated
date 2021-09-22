@@ -36,6 +36,6 @@
         "tailwindcss": "^2.2.15"
     },
     "dependencies": {
-        "liquid": "^5.1.1"
+        "liquidjs": "^6.4.3"
     }
 }

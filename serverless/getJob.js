@@ -1,8 +1,10 @@
-const Liquid = require('liquid')
-const engine = new Liquid.Engine()
+const Liquid = require('liquidjs')
+const templ = require('../src/pages/jobs/id.11ty')
 
 exports.handler = async (event, context) => {
     try {
+        let engine = new Liquid.default()
+
         console.log('happening...')
         /**
          * We get this from netlify. We split up the string
@@ -24,8 +26,11 @@ exports.handler = async (event, context) => {
 
         return {
             statusCode: 200,
-            body: await engine.parseAndRender(`<h1>{{name}}</h1>`, {
-                name: 'Garretttttt',
+            headers: {
+                'Content-Type': 'text/html; charset=UTF-8',
+            },
+            body: await engine.parseAndRender(templ(), {
+                name: `Job id ${job_id}`,
             }),
         }
 

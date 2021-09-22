@@ -1,4 +1,18 @@
 [build]
-  publish = "dist"
   command = "npm run build"
-  skip_processing = true
+  publish = "dist"
+  functions = "serverless"
+  NODE_ENV = "16.9.1"
+
+[dev]
+  command = "npm run dev"
+
+[[redirects]]
+  from = "/jobs/"
+  to = "/404"
+  status = 404
+
+[[redirects]]
+  from = "/jobs/*"
+  to = "/.netlify/functions/getJob"
+  status = 200

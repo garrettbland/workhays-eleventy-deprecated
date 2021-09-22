@@ -30,7 +30,6 @@
         "@tailwindcss/forms": "^0.3.3",
         "@tailwindcss/typography": "^0.4.1",
         "alpinejs": "^3.4.0",
-        "eleventy-plugin-error-overlay": "^0.1.2",
         "html-minifier": "^4.0.0",
         "prettier": "^2.4.1",
         "rimraf": "^3.0.2",

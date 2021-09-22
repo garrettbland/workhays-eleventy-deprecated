@@ -1,3 +1,6 @@
+const Liquid = require('liquid')
+const engine = new Liquid.Engine()
+
 exports.handler = async (event, context) => {
     try {
         console.log('happening...')
@@ -21,9 +24,17 @@ exports.handler = async (event, context) => {
 
         return {
             statusCode: 200,
-            body: `Hello from serverless job id (${job_id})`,
+            body: await engine.parseAndRender(`<h1>{{name}}</h1>`, {
+                name: 'Garretttttt',
+            }),
         }
+
+        // return {
+        //     statusCode: 200,
+        //     body: `Hello from serverless job id (${job_id})`,
+        // }
     } catch (err) {
+        console.log(err)
         return {
             statusCode: 500,
             body: 'Something went wrong',

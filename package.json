@@ -1,0 +1,39 @@
+{
+    "name": "eleventykit",
+    "version": "1.0.4",
+    "description": "A static website starter kit for the modern web",
+    "prettier": {
+        "semi": false,
+        "trailingComma": "es5",
+        "singleQuote": true,
+        "printWidth": 70,
+        "tabWidth": 4,
+        "useTabs": false,
+        "bracketSpacing": true
+    },
+    "scripts": {
+        "dev": "rimraf dist && npx @11ty/eleventy --serve & npx tailwindcss -i src/css/tailwind.css -o dist/style.css -w",
+        "build": "rimraf dist && ELEVENTY_PRODUCTION=true npx @11ty/eleventy && NODE_ENV=production npx tailwindcss -i src/css/tailwind.css -o dist/style.css --minify"
+    },
+    "keywords": [
+        "eleventy",
+        "alpinejs",
+        "tailwindcss",
+        "static"
+    ],
+    "author": "Garrett Bland",
+    "license": "MIT",
+    "devDependencies": {
+        "@11ty/eleventy": "^0.12.1",
+        "@garrettbland/img-alt-tag-check": "^0.0.4",
+        "@garrettbland/lazy-load-images": "^0.0.6",
+        "@tailwindcss/forms": "^0.3.3",
+        "@tailwindcss/typography": "^0.4.1",
+        "alpinejs": "^3.4.0",
+        "eleventy-plugin-error-overlay": "^0.1.2",
+        "html-minifier": "^4.0.0",
+        "prettier": "^2.4.1",
+        "rimraf": "^3.0.2",
+        "tailwindcss": "^2.2.15"
+    }
+}

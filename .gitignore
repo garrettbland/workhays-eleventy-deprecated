@@ -1,0 +1,14 @@
+# node
+node_modules/
+
+# MacOS
+.DS_Store
+
+# build directory
+dist/
+
+# Parcel
+.cache/
+
+# Misc
+*.log

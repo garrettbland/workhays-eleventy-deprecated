@@ -1,5 +1,5 @@
 [functions]
-  included_files = ["serverless/*.liquid"]
+  included_files = ["serverless/*.liquid", "serverless/lib/*.liquid"]
 
 [build]
   command = "npm run build"

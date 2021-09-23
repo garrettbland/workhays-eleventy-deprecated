@@ -1,9 +1,12 @@
 const Liquid = require('liquidjs')
-const templ = require('../src/pages/jobs/id.11ty')
-
+const path = require('path')
 exports.handler = async (event, context) => {
     try {
-        let engine = new Liquid.default()
+        let engine = new Liquid.default({
+            root: path.resolve(__dirname, '../src/'),
+            dynamicPartials: true,
+            extname: '.liquid',
+        })
 
         console.log('happening...')
         /**
@@ -29,8 +32,8 @@ exports.handler = async (event, context) => {
             headers: {
                 'Content-Type': 'text/html; charset=UTF-8',
             },
-            body: await engine.parseAndRender(templ(), {
-                name: `Job id ${job_id}`,
+            body: await engine.renderFile('pages/jobs/example', {
+                name: `job id ${job_id}`,
             }),
         }
 

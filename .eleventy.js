@@ -1,10 +1,19 @@
 const htmlmin = require('html-minifier')
 const lazyloadimages = require('@garrettbland/lazy-load-images')
 const imagealttagcheck = require('@garrettbland/img-alt-tag-check')
-
+let liquidJs = require('liquidjs')
 const now = Date.now().toString()
+const path = require('path')
 
 module.exports = function (eleventyConfig) {
+    let options = {
+        extname: '.liquid',
+        dynamicPartials: true,
+        root: 'src',
+    }
+
+    eleventyConfig.setLibrary('liquid', liquidJs(options))
+
     /**
      * Setup nice overlay so we are foreced to fix errors
      */
@@ -63,9 +72,6 @@ module.exports = function (eleventyConfig) {
         passthroughFileCopy: true,
         dir: {
             input: 'src/pages',
-            includes: '../_includes',
-            layouts: '../_includes',
-            data: '../_data',
             output: 'dist',
         },
     }

@@ -34,8 +34,5 @@
         "prettier": "^2.4.1",
         "rimraf": "^3.0.2",
         "tailwindcss": "^2.2.15"
-    },
-    "dependencies": {
-        "liquidjs": "^6.4.3"
     }
 }

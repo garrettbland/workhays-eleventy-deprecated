@@ -6,7 +6,7 @@ const now = Date.now().toString()
 const path = require('path')
 const fs = require('fs-extra')
 
-module.exports = function (eleventyConfig) {
+module.exports = (eleventyConfig) => {
     let options = {
         extname: '.liquid',
         dynamicPartials: true,
@@ -38,26 +38,48 @@ module.exports = function (eleventyConfig) {
 
     /**
      * Copy pages and lib to serverless function to see if this works
-     * Will overwrite
      */
+
+    // if (!fs.access('./serverless/lib')) {
+    //     console.log('DIRECTORY DOESNT EXIST')
+    //     fs.mkdir('./serverless/lib', { recursive: true })
+    // }
+
+    fs.mkdir('./serverless/lib', { recursive: true })
+
     fs.copyFile(
         './src/pages/jobs/example.liquid',
         './serverless/example.liquid',
         (err) => {
             if (err) throw err
-            console.log('Copied over example liquid template...')
+            console.log(
+                `Copied over example.liquid to serverless dir...`
+            )
         }
     )
 
-    fs.copySync(
-        './src/lib',
-        './serverless/lib',
-        { overwrite: true },
-        (err) => {
-            if (err) throw err
-            console.log('Copied over lib directory...')
-        }
-    )
+    fs.readdir('./src/lib', (err, files) => {
+        files.forEach((file) => {
+            fs.copyFile(
+                path.resolve(__dirname, 'src/lib/', file),
+                `./serverless/lib/${file}`,
+                (err) => {
+                    if (err) throw err
+                    console.log(`Copied ${file} to serverless dir...`)
+                }
+            )
+        })
+    })
+
+    // fs.copy(
+    //     './src/lib',
+    //     './serverless/lib',
+    //     { overwrite: true },
+    //     (err) => {
+    //         if (err) throw err
+    //         console.log('Copied over lib directory...')
+    //     }
+    // )
 
     /**
      * Add version shortcode to version and cache bust our stylesheet and

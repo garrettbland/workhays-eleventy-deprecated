@@ -7,8 +7,9 @@ node_modules/
 # build directory
 dist/
 
-# Parcel
-.cache/
-
 # Misc
 *.log
+
+# Extra serverless files
+serverless/*.liquid
+serverless/lib/

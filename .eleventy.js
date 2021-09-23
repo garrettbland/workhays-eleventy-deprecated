@@ -4,6 +4,7 @@ const imagealttagcheck = require('@garrettbland/img-alt-tag-check')
 let liquidJs = require('liquidjs')
 const now = Date.now().toString()
 const path = require('path')
+const fs = require('fs-extra')
 
 module.exports = function (eleventyConfig) {
     let options = {
@@ -34,6 +35,29 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy({
         './node_modules/alpinejs/dist/cdn.min.js': './alpine.js',
     })
+
+    /**
+     * Copy pages and lib to serverless function to see if this works
+     * Will overwrite
+     */
+    fs.copyFile(
+        './src/pages/jobs/example.liquid',
+        './serverless/example.liquid',
+        (err) => {
+            if (err) throw err
+            console.log('Copied over example liquid template...')
+        }
+    )
+
+    fs.copySync(
+        './src/lib',
+        './serverless/lib',
+        { overwrite: true },
+        (err) => {
+            if (err) throw err
+            console.log('Copied over lib directory...')
+        }
+    )
 
     /**
      * Add version shortcode to version and cache bust our stylesheet and

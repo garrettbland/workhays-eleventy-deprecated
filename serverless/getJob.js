@@ -3,7 +3,7 @@ const path = require('path')
 exports.handler = async (event, context) => {
     try {
         let engine = new Liquid.default({
-            root: path.resolve(__dirname, '../src/'),
+            root: path.resolve(__dirname),
             dynamicPartials: true,
             extname: '.liquid',
         })
@@ -32,7 +32,7 @@ exports.handler = async (event, context) => {
             headers: {
                 'Content-Type': 'text/html; charset=UTF-8',
             },
-            body: await engine.renderFile('pages/jobs/example', {
+            body: await engine.renderFile('example', {
                 name: `job id ${job_id}`,
             }),
         }

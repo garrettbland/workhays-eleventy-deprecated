@@ -37,16 +37,14 @@ module.exports = (eleventyConfig) => {
     })
 
     /**
-     * Copy pages and lib to serverless function to see if this works
+     * Create 'lib' directory in serverless directory if
+     * it doesn't exist
      */
-
-    // if (!fs.access('./serverless/lib')) {
-    //     console.log('DIRECTORY DOESNT EXIST')
-    //     fs.mkdir('./serverless/lib', { recursive: true })
-    // }
-
     fs.mkdir('./serverless/lib', { recursive: true })
 
+    /**
+     * Copy example template into serverless directory
+     */
     fs.copyFile(
         './src/pages/jobs/example.liquid',
         './serverless/example.liquid',
@@ -58,6 +56,9 @@ module.exports = (eleventyConfig) => {
         }
     )
 
+    /**
+     * Read all files in lib, and copy each file into serverless/lib
+     */
     fs.readdir('./src/lib', (err, files) => {
         files.forEach((file) => {
             fs.copyFile(
@@ -70,16 +71,6 @@ module.exports = (eleventyConfig) => {
             )
         })
     })
-
-    // fs.copy(
-    //     './src/lib',
-    //     './serverless/lib',
-    //     { overwrite: true },
-    //     (err) => {
-    //         if (err) throw err
-    //         console.log('Copied over lib directory...')
-    //     }
-    // )
 
     /**
      * Add version shortcode to version and cache bust our stylesheet and

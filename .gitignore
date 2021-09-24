@@ -11,5 +11,5 @@ dist/
 *.log
 
 # Extra serverless files
-serverless/*.liquid
-serverless/lib/
+serverless/getJob/*.liquid
+serverless/getJob/lib/

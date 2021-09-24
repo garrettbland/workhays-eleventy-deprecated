@@ -1,26 +1,26 @@
-[functions]
+[functions.getJob]
   # Include liquid files we need for our getJob function to work
   # These files are references from the liquid engine. Since we aren't
   # importing or requiring, netlify has no way of knowing we need these
   # so we manually include them.
-  included_files = ["serverless/*.liquid", "serverless/lib/*.liquid"]
+  included_files = ['serverless/getJob/*.liquid', 'serverless/getJob/lib/*.liquid']
 
 [build]
-  command = "npm run build"
-  publish = "dist"
-  functions = "serverless"
-  NODE_ENV = "16.9.1"
+  command = 'npm run build'
+  publish = 'dist'
+  functions = 'serverless'
+  NODE_ENV = '16.9.1'
 
 [dev]
-  command = "npm run dev"
+  command = 'npm run dev'
   autoLaunch = false
 
 [[redirects]]
-  from = "/jobs/"
-  to = "/404"
+  from = '/jobs/'
+  to = '/404'
   status = 404
 
 [[redirects]]
-  from = "/jobs/*"
-  to = "/.netlify/functions/getJob"
+  from = '/jobs/*'
+  to = '/.netlify/functions/getJob'
   status = 200

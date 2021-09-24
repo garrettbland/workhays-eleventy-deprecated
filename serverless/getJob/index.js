@@ -32,7 +32,7 @@ exports.handler = async (event, context) => {
             headers: {
                 'Content-Type': 'text/html; charset=UTF-8',
             },
-            body: await engine.renderFile('example', {
+            body: await engine.renderFile('preview', {
                 name: `job id ${job_id}`,
             }),
         }

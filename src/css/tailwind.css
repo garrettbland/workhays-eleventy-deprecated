@@ -18,6 +18,8 @@ textarea {
     @apply rounded;
 }
 
+/** this rule is needed to hide alpine stuff before initialization */
+/** If this isn't here, then things like the mobile nav 'flicker' onload */
 [x-cloak] {
     display: none !important;
 }

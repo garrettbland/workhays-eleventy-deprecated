@@ -7,6 +7,9 @@ node_modules/
 # build directory
 dist/
 
+# Parcel
+.cache
+
 # Misc
 *.log
 

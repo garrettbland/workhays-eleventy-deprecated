@@ -12,8 +12,8 @@
         "bracketSpacing": true
     },
     "scripts": {
-        "dev": "rimraf dist && npx @11ty/eleventy --serve & npx tailwindcss -i src/css/tailwind.css -o dist/style.css -w",
-        "build": "rimraf dist && ELEVENTY_PRODUCTION=true npx @11ty/eleventy && NODE_ENV=production npx tailwindcss -i src/css/tailwind.css -o dist/style.css --minify"
+        "dev": "rimraf dist && npx @11ty/eleventy --serve & npx tailwindcss -i src/css/tailwind.css -o dist/style.css -w & parcel watch ./src/pages/admin/admin.js --out-dir dist/admin",
+        "build": "rimraf dist && ELEVENTY_PRODUCTION=true npx @11ty/eleventy && parcel build ./src/pages/admin/admin.js --out-dir dist/admin && NODE_ENV=production npx tailwindcss -i src/css/tailwind.css -o dist/style.css --minify"
     },
     "keywords": [
         "eleventy",
@@ -31,11 +31,14 @@
         "@tailwindcss/typography": "^0.4.1",
         "alpinejs": "^3.4.0",
         "html-minifier": "^4.0.0",
+        "parcel-bundler": "^1.12.5",
         "prettier": "^2.4.1",
         "rimraf": "^3.0.2",
+        "svelte": "^3.43.0",
         "tailwindcss": "^2.2.15"
     },
     "dependencies": {
-        "fs-extra": "^8.1.0"
+        "fs-extra": "^8.1.0",
+        "parcel-plugin-svelte": "^4.0.9"
     }
 }

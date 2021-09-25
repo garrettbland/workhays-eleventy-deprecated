@@ -38,6 +38,13 @@ module.exports = (eleventyConfig) => {
     eleventyConfig.addWatchTarget(path.resolve(__dirname, 'src/lib/'))
 
     /**
+     * Watch our admin svelte components for any changes
+     */
+    eleventyConfig.addWatchTarget(
+        path.resolve(__dirname, 'src/pages/admin/components/')
+    )
+
+    /**
      * Pass directories & files to top level of dist
      * Add Alpine JS CDN build directly
      */

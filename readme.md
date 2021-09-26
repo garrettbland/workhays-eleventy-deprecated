@@ -20,3 +20,7 @@ etc, can all be statically generated.
 When a user visits a job page, for example `/jobs/example-job-id`, netlify redirects (assigned in `netlify.toml`)
 take over and redirect the user to our serverless function. From there, we grab the job details from the database,
 populate the important seo tags, and return the SSG page to the user.
+
+## Admin
+
+The admin interface is a Svelte app. A Svelte SPA routing library is used to keep things snappy. Parcel is used to package up the components and routes for the admin piece.

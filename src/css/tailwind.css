@@ -15,7 +15,7 @@ footer a:hover {
 input[type='text'],
 input[type='email'],
 textarea {
-    @apply rounded;
+    @apply rounded focus:outline-none focus:ring-2 focus:ring-indigo-600 ring-offset-2;
 }
 
 /** this rule is needed to hide alpine stuff before initialization */

@@ -24,3 +24,7 @@ textarea {
 [x-cloak] {
     display: none !important;
 }
+
+.disabled {
+    @apply opacity-50 hover:cursor-not-allowed;
+}

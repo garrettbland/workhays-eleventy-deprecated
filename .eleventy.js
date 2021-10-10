@@ -5,6 +5,7 @@ let liquidJs = require('liquidjs')
 const now = Date.now().toString()
 const path = require('path')
 const fs = require('fs-extra')
+const md = require('markdown-it')()
 
 module.exports = (eleventyConfig) => {
     /**
@@ -90,6 +91,16 @@ module.exports = (eleventyConfig) => {
     })
 
     /**
+     * Filter to let us render makrdown
+     */
+    eleventyConfig.addFilter('markdown', function (value) {
+        /**
+         * Takes in raw markdown text and spits out html
+         */
+        return md.render(value)
+    })
+
+    /**
      * Add version shortcode to version and cache bust our stylesheet and
      * javascript packages
      */
@@ -126,6 +137,7 @@ module.exports = (eleventyConfig) => {
         passthroughFileCopy: true,
         dir: {
             input: 'src/pages',
+            data: '../_data',
             output: 'dist',
         },
     }

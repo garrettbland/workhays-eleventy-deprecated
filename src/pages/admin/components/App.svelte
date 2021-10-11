@@ -1,4 +1,28 @@
 <script>
+
+    /**
+     * Authentication state from store
+     */
+    import { is_authenticated } from '../stores'
+
+    /**
+     * Initialize Firebase and check authorization
+     */
+    import { firebaseapp } from '../firebase'
+    import { getAuth, onAuthStateChanged } from '@firebase/auth'
+    const auth = getAuth(firebaseapp)
+    onAuthStateChanged(auth, user => {
+        // check on user status
+        console.log('checking user...')
+        if (user) {
+            console.log('setting logged in status to true...')
+            is_authenticated.set(true)
+        } else {
+            console.log('setting logged in status to false...')
+            is_authenticated.set(false)
+        }
+    })
+
     /**
      * Admin Router
      * Svelte SPA Router Documentation Below
@@ -16,11 +40,6 @@
     import NotFound from '../routes/NotFound'
     import SignIn from '../routes/SignIn'
     import Register from '../routes/Register'
-
-    /**
-     * Authentication state from store
-     */
-    import { is_authenticated } from '../stores'
 
     const authenticated_routes = {
         '/': Dashboard,

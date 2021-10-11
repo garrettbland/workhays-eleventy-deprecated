@@ -14,6 +14,7 @@ footer a:hover {
 
 input[type='text'],
 input[type='email'],
+input[type='password'],
 textarea {
     @apply rounded focus:outline-none focus:ring-2 focus:ring-indigo-600 ring-offset-2;
 }
@@ -22,4 +23,8 @@ textarea {
 /** If this isn't here, then things like the mobile nav 'flicker' onload */
 [x-cloak] {
     display: none !important;
+}
+
+.disabled {
+    @apply opacity-50 hover:cursor-not-allowed;
 }

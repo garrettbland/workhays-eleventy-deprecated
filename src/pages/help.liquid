@@ -2,8 +2,22 @@
 title: 'Help | Work Hays'
 ---
 
-{% layout './lib/layout' %} {% block content %}
-<section>
-    <h1 class="text-3xl font-bold text-indigo-600">Help</h1>
-</section>
+{% layout './lib/layout' %}
+{% block content %}
+    <section>
+        <h1 class="text-3xl font-bold text-indigo-600">Help</h1>
+    </section>
+    <section>
+        <ul>
+            <ul>
+                {% for article in articles %}
+                    <li>
+                        <a href="/help/{{ article.data.title | slug }}">
+                            {{ article.data.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </ul>
+    </section>
 {% endblock %}

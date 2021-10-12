@@ -1,0 +1,23 @@
+---
+title: 'Frequently Asked Questions | Work Hays'
+---
+
+{% layout './lib/layout' %}
+{% block content %}
+    <section>
+        <h1 class="text-3xl font-bold text-indigo-600">Frequently Asked Questions</h1>
+        <p class="prose prose-lg prose-blue mb-8">
+            Have questions or need help? Browse our frequently asked questions below. If you
+            would like some more information, please
+            <a href="/contact">click here</a>
+            to contact us.
+        </p>
+        <div class="border border-gray-200 rounded divide-y divide-gray-200">
+            {% for article in articles %}
+                <a class="block px-4 py-2 hover:bg-gray-100" href="/faq/{{ article.data.title | slug }}">
+                    {{ article.data.title }}
+                </a>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

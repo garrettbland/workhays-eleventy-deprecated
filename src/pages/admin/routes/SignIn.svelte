@@ -9,15 +9,26 @@
 
     let is_loading = false
     let inputs_validated = false
-    let show_login_error = false
-    let email,
-        password = ''
+    let email = ''
+    let password = ''
+    let error_message = ''
 
+    /**
+     * Validate inputs on state change
+     */
     $: {
         if (email === '' || password === '') {
             inputs_validated = false
         } else {
             inputs_validated = true
+        }
+    }
+
+    const onEnterKey = (event) => {
+        if (event.charCode === 13) {
+            if (inputs_validated) {
+                sign_in()
+            }
         }
     }
 
@@ -36,8 +47,19 @@
                 push('#/dashboard')
             }
         } catch (err) {
-            show_login_error = true
-            console.log(err)
+            if (err.code === 'auth/invalid-email') {
+                error_message =
+                    'Invalid email address. Please try again.'
+            } else if (err.code === 'auth/user-not-found') {
+                error_message =
+                    'An account with that email address was not found. Please try again.'
+            } else if (err.code === 'auth/wrong-password') {
+                error_message =
+                    'Incorrect password. Please try again.'
+            } else {
+                error_message =
+                    'There was an error signing in. Please try again'
+            }
         } finally {
             is_loading = false
         }
@@ -77,7 +99,7 @@
                 <span class="font-bold">free</span>.
             </span>
         </p>
-        {#if show_login_error}
+        {#if error_message !== ''}
             <p
                 class="bg-red-100 text-red-600 px-3 py-1 flex flex-row items-center space-x-2 rounded border border-red-200"
             >
@@ -96,7 +118,7 @@
                     />
                 </svg>
                 <span class="prose">
-                    Incorrect username or password. Please try again.
+                    {error_message}
                 </span>
             </p>
         {/if}
@@ -113,6 +135,7 @@
             name="password"
             placeholder="Password"
             type="password"
+            on:keypress={(e) => onEnterKey(e)}
         />
     </div>
     <button

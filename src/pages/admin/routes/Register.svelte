@@ -1,13 +1,81 @@
 <script>
-    let first_name,
-        last_name,
-        email,
-        business,
-        password_confirm,
-        password = ''
+    import { push } from 'svelte-spa-router'
+    import { is_authenticated } from '../stores'
+    import {
+        getAuth,
+        createUserWithEmailAndPassword,
+    } from 'firebase/auth'
+    const auth = getAuth()
+
+    let is_loading = false
+    let inputs_validated = false
+    let error_message = ''
+    let form = {
+        first_name: '',
+        last_name: '',
+        email: '',
+        business: '',
+        password: '',
+        password_confirm: '',
+    }
+
+    /**
+     * Validate inputs on state change
+     */
+    $: {
+        if (Object.values(form).includes('')) {
+            inputs_validated = false
+        } else {
+            inputs_validated = true
+        }
+    }
+
+    const validate_passwords = () => {
+        return new Promise((resolve) => {
+            if (form.password !== form.password_confirm) {
+                resolve(false)
+            }
+            resolve(true)
+        })
+    }
 
     const create_account = async () => {
-        alert('created account')
+        try {
+            is_loading = true
+            const passwords_match = await validate_passwords()
+            if (!passwords_match) throw Error('password-mismatch')
+
+            const { user } = await createUserWithEmailAndPassword(
+                auth,
+                form.email,
+                form.password
+            )
+            if (user) {
+                console.log('Add details to firebase...')
+                is_authenticated.set(true)
+                // navigate to dashboard
+                push('#/dashboard')
+            }
+        } catch (err) {
+            if (err.code === 'auth/weak-password') {
+                error_message =
+                    'Password should be at least 6 characters long. Please try again.'
+            } else if (err.code === 'auth/invalid-email') {
+                error.error_message =
+                    'Invalid email address. Please try again.'
+            } else if (err.message === 'password-mismatch') {
+                error_message =
+                    'Passwords do not match. Please try again.'
+            } else if (err.message === 'auth/email-already-in-use') {
+                error_message =
+                    'That email is already in use. Please try again'
+            } else {
+                error_message =
+                    'There was an error during registration. Please try again.'
+            }
+        } finally {
+            is_loading = false
+        }
     }
 </script>
 
@@ -74,48 +142,72 @@
                 > for assistance.
             </span>
         </p>
+        {#if error_message !== ''}
+            <p
+                class="bg-red-100 text-red-600 px-3 py-1 flex flex-row items-center space-x-2 rounded border border-red-200"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                </svg>
+                <span class="prose">
+                    {error_message}
+                </span>
+            </p>
+        {/if}
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-4">
         <input
-            bind:value={first_name}
+            bind:value={form.first_name}
             name="first_name"
             placeholder="First Name"
             type="text"
         />
         <input
-            bind:value={last_name}
+            bind:value={form.last_name}
             name="last_name"
             placeholder="Last Name"
             type="text"
         />
         <input
-            bind:value={email}
+            bind:value={form.email}
             name="email"
             placeholder="Email"
             type="email"
         />
         <input
-            bind:value={business}
+            bind:value={form.business}
             name="business"
             placeholder="Business or Employer"
             type="text"
         />
         <input
-            bind:value={password}
+            bind:value={form.password}
             name="password"
             placeholder="Password"
             type="password"
         />
         <input
-            bind:value={password_confirm}
+            bind:value={form.password_confirm}
             name="password_confirm"
             placeholder="Confirm Password"
             type="password"
         />
     </div>
     <button
-        on:click={() => create_account()}
+        on:click={() => (inputs_validated ? create_account() : null)}
         class="bg-indigo-600 hover:bg-indigo-700 text-white rounded px-5 py-2 transition-all"
-        >Register Employer</button
+        class:disabled={inputs_validated === false}
+        >{is_loading ? 'Loading...' : 'Register'}</button
     >
 </section>

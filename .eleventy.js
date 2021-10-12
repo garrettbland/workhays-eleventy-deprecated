@@ -46,6 +46,20 @@ module.exports = (eleventyConfig) => {
     )
 
     /**
+     * Watch the data directory
+     */
+    eleventyConfig.addWatchTarget(
+        path.resolve(__dirname, 'src/_data')
+    )
+
+    /**
+     * Watch our articles directory
+     */
+    eleventyConfig.addWatchTarget(
+        path.resolve(__dirname, 'src/articles')
+    )
+
+    /**
      * Pass directories & files to top level of dist
      * Add Alpine JS CDN build directly
      */

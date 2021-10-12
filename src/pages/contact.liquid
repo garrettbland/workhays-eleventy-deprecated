@@ -8,10 +8,21 @@ title: 'Contact Us | Work Hays'
         <h1 class="text-3xl font-bold text-indigo-600 mb-3">
             Contact Us
         </h1>
-        <p class="prose prose-lg mb-8">
-            Have questions or comments? Please fill out the form below and
-            we will be in touch as soon as we can.
-        </p>
+        <div class="prose prose-lg prose-blue mb-8">
+            <p>
+                Have questions or comments? Please fill out the form below and
+                we will be in touch as soon as we can.
+            </p>
+            <p class="bg-gray-100 text-gray-600 px-3 py-1 flex flex-row items-center space-x-2 rounded border border-gray-200">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                </svg>
+                <span class="prose">
+                    <a href="/faq">Click here</a>
+                    to view our frequently asked questions
+                </span>
+            </p>
+        </div>
         <form action="/success" data-netlify="true" method="POST" name="contact">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-4">
                 <input class="" name="first" placeholder="First Name" type="text" />

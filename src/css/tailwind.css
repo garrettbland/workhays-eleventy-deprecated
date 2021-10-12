@@ -25,6 +25,7 @@ textarea {
     display: none !important;
 }
 
+/** Used for disabling buttons with svelte */
 .disabled {
     @apply opacity-50 hover:cursor-not-allowed;
 }

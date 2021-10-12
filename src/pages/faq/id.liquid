@@ -1,0 +1,21 @@
+---
+pagination:
+  data: articles
+  size: 1
+  alias: article
+permalink: 'faq/{{ article.data.title | slug }}/index.html'
+eleventyComputed:
+  title: "{{ article.data.title }}"
+---
+
+{% layout './lib/layout' %}
+{% block content %}
+    <section>
+        <h1 class="text-3xl font-bold text-indigo-600 mb-3">
+            {{ article.data.title }}
+        </h1>
+        <article class="prose prose-blue">
+            {{ article.content | markdown }}
+        </article>
+    </section>
+{% endblock %}

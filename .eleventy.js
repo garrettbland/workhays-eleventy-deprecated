@@ -6,6 +6,7 @@ const now = Date.now().toString()
 const path = require('path')
 const fs = require('fs-extra')
 const md = require('markdown-it')()
+const chalk = require('chalk')
 
 module.exports = (eleventyConfig) => {
     /**
@@ -34,30 +35,9 @@ module.exports = (eleventyConfig) => {
     )
 
     /**
-     * Watch our lib directory to rebuild if any changes occur
+     * Watch our entire src directory
      */
-    eleventyConfig.addWatchTarget(path.resolve(__dirname, 'src/lib/'))
-
-    /**
-     * Watch our admin svelte components for any changes
-     */
-    eleventyConfig.addWatchTarget(
-        path.resolve(__dirname, 'src/pages/admin/components/')
-    )
-
-    /**
-     * Watch the data directory
-     */
-    eleventyConfig.addWatchTarget(
-        path.resolve(__dirname, 'src/_data')
-    )
-
-    /**
-     * Watch our articles directory
-     */
-    eleventyConfig.addWatchTarget(
-        path.resolve(__dirname, 'src/articles')
-    )
+    eleventyConfig.addWatchTarget(path.resolve(__dirname, 'src'))
 
     /**
      * Pass directories & files to top level of dist
@@ -82,8 +62,8 @@ module.exports = (eleventyConfig) => {
         `./serverless/getJob/preview.liquid`,
         (err) => {
             if (err) throw err
-            console.log(
-                `Copied over preview.liquid to serverless dir...`
+            chalk.green(
+                `📦 Copied over preview.liquid to serverless dir...`
             )
         }
     )
@@ -98,7 +78,9 @@ module.exports = (eleventyConfig) => {
                 `./serverless/getJob/lib/${file}`,
                 (err) => {
                     if (err) throw err
-                    console.log(`Copied ${file} to serverless dir...`)
+                    chalk.green(
+                        `📄 Copied ${file} to serverless dir...`
+                    )
                 }
             )
         })

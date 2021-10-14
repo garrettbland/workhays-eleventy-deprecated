@@ -1,7 +1,7 @@
 /**
  * Firestore database schema
  * Useful to keep track of firestore setup
- * Kind of weird, this would make much more sense using typescript
+ * Might be weird, but helps visualize for development
  */
 
 /**
@@ -24,8 +24,13 @@ const collections = {
  * ------------------------
  */
 const employer = {
+    owner_user_id: 'STRING',
+    members: '[user_id]',
     title: 'STRING',
     website: 'STRING',
+    status: 'pending | verified | disabled',
+    created_at: 'timestamp',
+    updated_at: 'timestamp',
 }
 
 /**
@@ -34,8 +39,14 @@ const employer = {
  * ------------------------
  */
 const job = {
-    title: 'STRING',
     employer_id: 'STRING',
+    title: 'STRING',
+    job_type: 'part_time | full_time',
+    description: 'STRING',
+    application_link: 'STRING',
+    status: 'active | inactive | archived',
+    created_at: 'timestamp',
+    updated_at: 'timestamp',
 }
 
 /**
@@ -45,9 +56,13 @@ const job = {
  */
 const user = {
     uid: 'STRING',
+    member_of: '[employer_id]',
     first_name: 'STRING',
     last_name: 'STRING',
-    role: 'super_admin | admin | owner | member',
+    role: 'admin | member',
+    status: 'active | disabled',
+    created_at: 'timestamp',
+    updated_at: 'timestamp',
 }
 
 /**
@@ -58,4 +73,7 @@ const user = {
 const subscriber = {
     email: 'STRING',
     industry: 'STRING',
+    status: 'active | disabled',
+    created_at: 'timestamp',
+    updated_at: 'timestamp',
 }

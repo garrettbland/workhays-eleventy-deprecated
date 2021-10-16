@@ -5,6 +5,18 @@
         getAuth,
         createUserWithEmailAndPassword,
     } from 'firebase/auth'
+    import {
+        getFirestore,
+        collection,
+        addDoc,
+        Timestamp,
+    } from 'firebase/firestore'
+
+    /**
+     * These might be able to be exported from firebase instead
+     * of initializing every time
+     */
+    const db = getFirestore()
     const auth = getAuth()
 
     let is_loading = false
@@ -41,17 +53,46 @@
 
     const create_account = async () => {
         try {
+            // start loading
             is_loading = true
+
+            // validate that passwords match
             const passwords_match = await validate_passwords()
             if (!passwords_match) throw Error('password-mismatch')
 
+            // Create the user in firebase authentication
             const { user } = await createUserWithEmailAndPassword(
                 auth,
                 form.email,
                 form.password
             )
-            if (user) {
-                console.log('Add details to firebase...')
+
+            // Create the employer account in firestore
+            const employerRef = await addDoc(
+                collection(db, 'employers'),
+                {
+                    owner_user_id: user.uid,
+                    members: [],
+                    title: form.business,
+                    status: 'pending',
+                    created_at: Timestamp.fromDate(new Date()),
+                    updated_at: Timestamp.fromDate(new Date()),
+                }
+            )
+
+            // Create the user account in firestore
+            const userRef = await addDoc(collection(db, 'users'), {
+                uid: user.uid,
+                member_of: employerRef.id,
+                first_name: form.first_name,
+                last_name: form.last_name,
+                role: 'member',
+                status: 'active',
+                created_at: Timestamp.fromDate(new Date()),
+                updated_at: Timestamp.fromDate(new Date()),
+            })
+
+            if (userRef) {
                 is_authenticated.set(true)
                 // navigate to dashboard
                 push('#/dashboard')
@@ -66,10 +107,13 @@
             } else if (err.message === 'password-mismatch') {
                 error_message =
                     'Passwords do not match. Please try again.'
-            } else if (err.message === 'auth/email-already-in-use') {
+            } else if (err.code === 'auth/email-already-in-use') {
                 error_message =
                     'That email is already in use. Please try again'
             } else {
+                /**
+                 * Could track these alerts in log rocket or sentry or something
+                 */
                 error_message =
                     'There was an error during registration. Please try again.'
             }

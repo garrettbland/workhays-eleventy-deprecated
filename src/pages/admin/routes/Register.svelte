@@ -1,23 +1,9 @@
 <script>
     import { push } from 'svelte-spa-router'
     import { is_authenticated } from '../stores'
-    import {
-        getAuth,
-        createUserWithEmailAndPassword,
-    } from 'firebase/auth'
-    import {
-        getFirestore,
-        collection,
-        addDoc,
-        Timestamp,
-    } from 'firebase/firestore'
-
-    /**
-     * These might be able to be exported from firebase instead
-     * of initializing every time
-     */
-    const db = getFirestore()
-    const auth = getAuth()
+    import { auth, db } from '../firebase'
+    import { createUserWithEmailAndPassword } from 'firebase/auth'
+    import { collection, addDoc, Timestamp } from 'firebase/firestore'
 
     let is_loading = false
     let inputs_validated = false

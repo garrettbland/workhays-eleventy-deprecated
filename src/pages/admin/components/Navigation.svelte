@@ -15,7 +15,7 @@
     }
 </script>
 
-<div>
+<div class="flex flex-col space-y-5">
     <a href="#/dashboard">Dashboard</a>
     <a href="#/jobs">Jobs</a>
     <a href="#/users">Users</a>

@@ -67,12 +67,26 @@
                 form.password
             )
 
+            // Create the user account in firestore
+            const userRef = await addDoc(collection(db, 'users'), {
+                uid: user.uid,
+                first_name: form.first_name,
+                last_name: form.last_name,
+                status: 'active',
+                created_at: Timestamp.fromDate(new Date()),
+                updated_at: Timestamp.fromDate(new Date()),
+            })
+
             // Create the employer account in firestore
             const employerRef = await addDoc(
                 collection(db, 'employers'),
                 {
-                    owner_user_id: user.uid,
-                    members: [],
+                    members: [
+                        {
+                            user_id: userRef.id,
+                            role: 'owner',
+                        },
+                    ],
                     title: form.business,
                     status: 'pending',
                     created_at: Timestamp.fromDate(new Date()),
@@ -80,19 +94,7 @@
                 }
             )
 
-            // Create the user account in firestore
-            const userRef = await addDoc(collection(db, 'users'), {
-                uid: user.uid,
-                member_of: employerRef.id,
-                first_name: form.first_name,
-                last_name: form.last_name,
-                role: 'member',
-                status: 'active',
-                created_at: Timestamp.fromDate(new Date()),
-                updated_at: Timestamp.fromDate(new Date()),
-            })
-
-            if (userRef) {
+            if (userRef && employerRef) {
                 is_authenticated.set(true)
                 // navigate to dashboard
                 push('#/dashboard')
@@ -181,7 +183,7 @@
             <span class="prose prose-blue">
                 If your organization is already registered, you can be
                 added to their account to manage job listings. Contact
-                your current Work Hays administrator to be added, or <a
+                the employer administrator to be added, or <a
                     href="/contact">contact us</a
                 > for assistance.
             </span>

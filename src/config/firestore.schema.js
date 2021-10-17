@@ -24,8 +24,12 @@ const collections = {
  * ------------------------
  */
 const employer = {
-    owner_user_id: 'STRING',
-    members: '[user_id]',
+    members: `[
+        {
+            user_id: 'STRING',
+            role: 'owner | admin | manager'
+        }
+    ]`,
     title: 'STRING',
     website: 'STRING',
     status: 'pending | verified | disabled',
@@ -59,7 +63,6 @@ const user = {
     member_of: '[employer_id]',
     first_name: 'STRING',
     last_name: 'STRING',
-    role: 'admin | member',
     status: 'active | disabled',
     created_at: 'timestamp',
     updated_at: 'timestamp',

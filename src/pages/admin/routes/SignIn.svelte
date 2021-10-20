@@ -1,11 +1,8 @@
 <script>
     import { is_authenticated } from '../stores'
     import { push } from 'svelte-spa-router'
-    import {
-        getAuth,
-        signInWithEmailAndPassword,
-    } from 'firebase/auth'
-    const auth = getAuth()
+    import { auth } from '../firebase'
+    import { signInWithEmailAndPassword } from 'firebase/auth'
 
     let is_loading = false
     let inputs_validated = false

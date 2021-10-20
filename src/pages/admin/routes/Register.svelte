@@ -1,11 +1,9 @@
 <script>
     import { push } from 'svelte-spa-router'
     import { is_authenticated } from '../stores'
-    import {
-        getAuth,
-        createUserWithEmailAndPassword,
-    } from 'firebase/auth'
-    const auth = getAuth()
+    import { auth, db } from '../firebase'
+    import { createUserWithEmailAndPassword } from 'firebase/auth'
+    import { collection, addDoc, Timestamp } from 'firebase/firestore'
 
     let is_loading = false
     let inputs_validated = false
@@ -41,17 +39,48 @@
 
     const create_account = async () => {
         try {
+            // start loading
             is_loading = true
+
+            // validate that passwords match
             const passwords_match = await validate_passwords()
             if (!passwords_match) throw Error('password-mismatch')
 
+            // Create the user in firebase authentication
             const { user } = await createUserWithEmailAndPassword(
                 auth,
                 form.email,
                 form.password
             )
-            if (user) {
-                console.log('Add details to firebase...')
+
+            // Create the user account in firestore
+            const userRef = await addDoc(collection(db, 'users'), {
+                uid: user.uid,
+                first_name: form.first_name,
+                last_name: form.last_name,
+                status: 'active',
+                created_at: Timestamp.fromDate(new Date()),
+                updated_at: Timestamp.fromDate(new Date()),
+            })
+
+            // Create the employer account in firestore
+            const employerRef = await addDoc(
+                collection(db, 'employers'),
+                {
+                    members: [
+                        {
+                            user_id: userRef.id,
+                            role: 'owner',
+                        },
+                    ],
+                    title: form.business,
+                    status: 'pending',
+                    created_at: Timestamp.fromDate(new Date()),
+                    updated_at: Timestamp.fromDate(new Date()),
+                }
+            )
+
+            if (userRef && employerRef) {
                 is_authenticated.set(true)
                 // navigate to dashboard
                 push('#/dashboard')
@@ -66,10 +95,13 @@
             } else if (err.message === 'password-mismatch') {
                 error_message =
                     'Passwords do not match. Please try again.'
-            } else if (err.message === 'auth/email-already-in-use') {
+            } else if (err.code === 'auth/email-already-in-use') {
                 error_message =
                     'That email is already in use. Please try again'
             } else {
+                /**
+                 * Could track these alerts in log rocket or sentry or something
+                 */
                 error_message =
                     'There was an error during registration. Please try again.'
             }
@@ -137,7 +169,7 @@
             <span class="prose prose-blue">
                 If your organization is already registered, you can be
                 added to their account to manage job listings. Contact
-                your current Work Hays administrator to be added, or <a
+                the employer administrator to be added, or <a
                     href="/contact">contact us</a
                 > for assistance.
             </span>

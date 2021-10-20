@@ -1,6 +1,7 @@
 <script>
     import { is_authenticated } from '../stores'
-    import { push } from 'svelte-spa-router'
+    import { push, link } from 'svelte-spa-router'
+    import active from 'svelte-spa-router/active'
     import { getAuth, signOut } from 'firebase/auth'
     const auth = getAuth()
 
@@ -15,10 +16,38 @@
     }
 </script>
 
-<div>
-    <a href="#/dashboard">Dashboard</a>
-    <a href="#/jobs">Jobs</a>
-    <a href="#/users">Users</a>
-    <a href="#/profile">Profile</a>
+<div class="flex flex-col space-y-5">
+    <a
+        href="/dashboard"
+        use:link
+        use:active={{
+            className: 'text-indigo-600',
+            inactiveClassName: 'text-gray-700',
+        }}>Dashboard</a
+    >
+    <a
+        href="/jobs"
+        use:link
+        use:active={{
+            className: 'text-indigo-600',
+            inactiveClassName: 'text-gray-700',
+        }}>Jobs</a
+    >
+    <a
+        href="/users"
+        use:link
+        use:active={{
+            className: 'text-indigo-600',
+            inactiveClassName: 'text-gray-700',
+        }}>Users</a
+    >
+    <a
+        href="/profile"
+        use:link
+        use:active={{
+            className: 'text-indigo-600',
+            inactiveClassName: 'text-gray-700',
+        }}>Profile</a
+    >
     <button on:click={() => sign_out()}>Sign Out</button>
 </div>

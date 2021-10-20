@@ -1,5 +1,7 @@
 <script>
-    import Layout from '../components/Layout.svelte'
+    import Layout from '../components/Layout'
+    import UpdateEmail from '../components/profile/UpdateEmail'
+    import PasswordReset from '../components/profile/PasswordReset'
 </script>
 
 <svelte:head>
@@ -7,5 +9,8 @@
 </svelte:head>
 
 <Layout>
-    <h1 class="text-5xl font-bold text-indigo-600 mb-3">Profile</h1>
+    <div class="space-y-12">
+        <UpdateEmail />
+        <PasswordReset />
+    </div>
 </Layout>

@@ -1,145 +1,47 @@
 <!-- Sign In & Registration Bar -->
-<div class="bg-gray-100 border-b border-gray-200">
-    <div
-        class="
-            max-w-4xl
-            mx-auto
-            px-5
-            py-1
-            text-sm
-            flex flex-row
-            justify-end
-            text-black
-            divide-x divide-gray-200
-        "
-    >
-        <a
-            href="/admin/#/register"
-            class="antialiased hover:underline px-4"
-            >Employer Registration</a
-        >
-        <a
-            href="/admin/#/sign-in"
-            class="antialiased hover:underline px-4"
-            >Sign In</a
-        >
+<div class="bg-gray-100 border-b border-gray-200" x-data="user_check()">
+    <div class="max-w-4xl mx-auto px-5 py-1 text-sm flex flex-row justify-end text-black divide-gray-200" x-bind:class="!is_user_signed_in ? 'divide-x' : ''">
+        <a class="antialiased hover:underline px-4" href="/admin/#/register" x-show="!is_user_signed_in">Employer Registration</a>
+        <a class="antialiased hover:underline px-4" href="/admin/#/sign-in" x-show="!is_user_signed_in">Sign In</a>
+        <a class="antialiased hover:underline px-4" href="/admin/#/dashboard" x-show="is_user_signed_in">Dashboard</a>
     </div>
 </div>
 
-<nav
-    x-data="{ menu_open: false }"
-    class="sticky top-0 left-0 z-20 w-full"
->
-    <div
-        class="
-            w-full
-            border-b-2 border-gray-200
-            bg-white bg-opacity-60
-            backdrop-filter backdrop-blur-md
-        "
-    >
-        <div
-            class="
-                max-w-4xl
-                mx-auto
-                flex flex-row
-                items-center
-                justify-between
-                px-5
-            "
-        >
+<script>
+    // Check to see if user is signed in or not to display 'sign in' or 'dashboard'
+    function user_check () {
+        return {
+            is_user_signed_in: false,
+            init: function () {
+                if (window.localStorage.getItem('is_user_authenticated') === 'true') {
+                    this.is_user_signed_in = true
+                }
+                window.addEventListener('storage', () => {
+                    this.is_user_signed_in = localStorage.getItem('is_user_authenticated') === 'true' ? true : false
+                })
+            }
+        }
+    }
+</script>
+
+<nav class="sticky top-0 left-0 z-20 w-full" x-data="{ menu_open: false }">
+    <div class="w-full border-b-2 border-gray-200bg-white bg-opacity-60 backdrop-filter backdrop-blur-md">
+        <div class="max-w-4xl mx-auto flex flex-row items-center justify-between px-5">
             <div class="flex flex-row space-x-12">
-                <a
-                    href="/"
-                    class="
-                        flex flex-row
-                        space-x-4
-                        items-center
-                        hover:underline
-                    "
-                >
-                    <img
-                        class="w-8 h-8 rounded-full"
-                        src="/images/work-hays-logo.svg"
-                        alt="Work Hays Logo"
-                    />
+                <a class="flex flex-row space-x-4 items-center hover:underline" href="/">
+                    <img alt="Work Hays Logo" class="w-8 h-8 rounded-full" src="/images/work-hays-logo.svg" />
                     <p>Work Hays</p>
                 </a>
-                <div
-                    class="
-                        hidden
-                        md:flex
-                        flex-row
-                        items-center
-                        space-x-4
-                        text-sm
-                    "
-                >
-                    <a
-                        href="/"
-                        class="
-                            px-4
-                            py-4
-                            border-b-2 border-transparent
-                            hover:border-indigo-600
-                        "
-                        >Jobs</a
-                    >
-                    <a
-                        href="/events"
-                        class="
-                            px-4
-                            py-4
-                            border-b-2 border-transparent
-                            hover:border-indigo-600
-                        "
-                        >Events</a
-                    >
-                    <a
-                        href="/contact"
-                        class="
-                            px-4
-                            py-4
-                            border-b-2 border-transparent
-                            hover:border-indigo-600
-                        "
-                        >Contact</a
-                    >
+                <div class="hidden md:flex flex-row items-center space-x-4 text-sm">
+                    <a class="px-4 py-4 border-b-2 border-transparent hover:border-indigo-600" href="/">Jobs</a>
+                    <a class="px-4 py-4 border-b-2 border-transparent hover:border-indigo-600" href="/events">Events</a>
+                    <a class="px-4 py-4 border-b-2 border-transparent hover:border-indigo-600" href="/contact">Contact</a>
                 </div>
             </div>
-            <a
-                href="/admin/#/jobs/new"
-                class="
-                    bg-indigo-600
-                    hover:bg-indigo-700
-                    text-white
-                    rounded
-                    px-5
-                    py-2
-                    hidden
-                    md:block
-                    text-sm
-                    transition-all
-                "
-                >Post Your Job</a
-            >
-            <button
-                class="md:hidden py-3"
-                x-on:click="menu_open = true"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M4 6h16M4 12h16M4 18h16"
-                    />
+            <a class="bg-indigo-600 hover:bg-indigo-700 text-white rounded px-5 py-2 hidden md:block text-sm transition-all" href="/admin/#/jobs/new">Post Your Job</a>
+            <button class="md:hidden py-3" x-on:click="menu_open = true">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
                 </svg>
             </button>
         </div>
@@ -149,79 +51,17 @@
     <!-- <div class="h-14 invisible"></div> -->
 
     <!-- Mobile Menu Overlay -->
-    <div
-        x-cloak
-        x-show="menu_open"
-        x-transition.opacity.duration.200
-        x-on:click="menu_open = false"
-        class="
-            fixed
-            z-20
-            top-0
-            left-0
-            w-screen
-            h-screen
-            bg-black bg-opacity-70
-        "
-    ></div>
+    <div class="fixed z-20 top-0 left-0 w-screen h-screen bg-black bg-opacity-70" x-cloak x-on:click="menu_open = false" x-show="menu_open" x-transition.opacity.duration.200></div>
 
     <!-- Mobile Close Button-->
-    <button
-        x-cloak
-        x-show="menu_open"
-        x-transition
-        x-on:click="menu_open = false"
-        class="
-            fixed
-            z-30
-            top-0
-            right-0
-            mt-3
-            mr-5
-            bg-white
-            rounded-full
-            shadow
-        "
-    >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-12 w-12 text-black p-3"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-            />
+    <button class="fixed z-30 top-0 right-0 mt-3 mr-5 bg-white rounded-full shadow" x-cloak x-on:click="menu_open = false" x-show="menu_open" x-transition>
+        <svg class="h-12 w-12 text-black p-3" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
         </svg>
     </button>
 
     <!-- Mobile Menu -->
-    <div
-        x-cloak
-        x-show="menu_open"
-        x-transition:enter="transition ease-in-out duration-300 transform"
-        x-transition:enter-start="-translate-x-full"
-        x-transition:enter-end="translate-x-0"
-        x-transition:leave="transition ease-in-out duration-300 transform"
-        x-transition:leave-start="translate-x-0"
-        x-transition:leave-end="-translate-x-full"
-        class="
-            fixed
-            z-30
-            top-0
-            left-0
-            w-3/5
-            max-w-xs
-            bg-white
-            shadow
-            h-screen
-            overflow-y-scroll
-        "
-    >
+    <div class="fixed z-30 top-0 left-0 w-3/5 max-w-xs bg-white shadow h-screen overflow-y-scroll" x-cloak x-show="menu_open" x-transition:enter-end="translate-x-0" x-transition:enter-start="-translate-x-full" x-transition:enter="transition ease-in-out duration-300 transform" x-transition:leave-end="-translate-x-full" x-transition:leave-start="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform">
         Menu
     </div>
 </nav>

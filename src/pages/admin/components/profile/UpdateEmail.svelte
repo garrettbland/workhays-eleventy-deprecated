@@ -1,4 +1,8 @@
 <script>
+    import { user_email } from '../../stores'
+    import { auth } from '../../firebase'
+    import { updateEmail } from 'firebase/auth'
+
     let is_loading = false
     let input_validated = false
     let new_email = ''
@@ -25,11 +29,14 @@
 <div class="border border-gray-200 rounded p-5 space-y-5">
     <div>
         <p class="text-lg pb-2 text-black">Update Email</p>
+        <p class="text-gray-600 antialiased mb-4">
+            Update your email below. An email will be sent to the
+            current email address that allows to revoke the email
+            address change, in order to protect against account
+            hijacking.
+        </p>
         <p class="text-gray-600 antialiased">
-            Update your email below. Please make sure you have access
-            to this new email for future password resets,
-            notifications, and more. This email is not public and only
-            used to login.
+            Current: <span class="text-black">{$user_email}</span>
         </p>
     </div>
     <div>
@@ -37,7 +44,7 @@
             bind:value={new_email}
             class="w-full"
             name="email"
-            placeholder="Email"
+            placeholder="New Email Address"
             type="email"
         />
     </div>

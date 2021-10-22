@@ -1,5 +1,7 @@
 <script>
     let is_loading = false
+    import { auth } from '../../firebase'
+    import { sendPasswordResetEmail } from 'firebase/auth'
 
     /**
      * Send the password reset email to the users email address

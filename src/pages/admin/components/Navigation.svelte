@@ -2,8 +2,8 @@
     import { is_authenticated } from '../stores'
     import { push, link } from 'svelte-spa-router'
     import active from 'svelte-spa-router/active'
-    import { getAuth, signOut } from 'firebase/auth'
-    const auth = getAuth()
+    import { auth } from '../firebase'
+    import { signOut } from 'firebase/auth'
 
     const sign_out = async () => {
         try {

@@ -21,7 +21,13 @@
         }
     }
 
+    /**
+     * Handle user hitting 'enter' key to sign in
+     */
     const onEnterKey = (event) => {
+        /**
+         * Enter key code is 13
+         */
         if (event.charCode === 13) {
             if (inputs_validated) {
                 sign_in()
@@ -39,7 +45,8 @@
                 password
             )
             if (user) {
-                is_authenticated.set(true)
+                //console.log(user)
+                //is_authenticated.set(true)
                 // navigate to dashboard
                 push('#/dashboard')
             }
